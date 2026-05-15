@@ -1,0 +1,21 @@
+{
+  "name": "routora",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Routora — Plan optimized field routes in seconds. Build a sequence of stops, let the optimizer find the shortest order, see the real driving route on the map.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4",
+    "vue": "^3.5.13",
+    "vuedraggable": "^4.1.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "vite": "^6.0.5"
+  }
+}
