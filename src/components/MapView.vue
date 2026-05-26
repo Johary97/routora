@@ -3,8 +3,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
+import { ref, onMounted, onBeforeUnmount, watch, nextTick, computed } from 'vue'
 import L from 'leaflet'
+import { useTheme } from '@theme/useTheme.js'
 
 const props = defineProps({
   waypoints: { type: Array, required: true },
@@ -17,9 +18,20 @@ const rootRef = ref(null)
 let map = null
 let markerLayer = null
 let routeLayer = null
+let tileLayer = null
 
-const TILE_URL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-const ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+const { manifest } = useTheme()
+const tileUrl = computed(
+  () => manifest.value.mapTileUrl || 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+)
+const tileAttribution = computed(
+  () =>
+    manifest.value.mapTileAttribution ||
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+)
+const mapFilter = computed(() => manifest.value.mapFilter || 'none')
+
+const _DEFAULT_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 
 function makeDivIcon(label, isOrigin) {
   return L.divIcon({
@@ -95,7 +107,11 @@ onMounted(async () => {
     maxZoom: 19
   }).setView([46.7, 2.5], 5)
 
-  L.tileLayer(TILE_URL, { attribution: ATTRIBUTION, maxZoom: 19 }).addTo(map)
+  tileLayer = L.tileLayer(tileUrl.value, {
+    attribution: tileAttribution.value,
+    maxZoom: 19
+  }).addTo(map)
+  applyMapFilter()
 
   markerLayer = L.layerGroup().addTo(map)
   routeLayer = L.layerGroup().addTo(map)
@@ -117,6 +133,26 @@ onBeforeUnmount(() => {
 
 watch(() => props.waypoints, () => rebuildMarkers(), { deep: true })
 watch(() => props.routeGeometry, () => rebuildRoute())
+
+function applyMapFilter() {
+  if (!rootRef.value) return
+  rootRef.value.style.filter = mapFilter.value === 'none' ? '' : mapFilter.value
+}
+
+function swapTileLayer() {
+  if (!map) return
+  if (tileLayer) {
+    map.removeLayer(tileLayer)
+  }
+  tileLayer = L.tileLayer(tileUrl.value, {
+    attribution: tileAttribution.value,
+    maxZoom: 19
+  }).addTo(map)
+  applyMapFilter()
+}
+
+watch(tileUrl, () => swapTileLayer())
+watch(mapFilter, () => applyMapFilter())
 
 defineExpose({
   fitToContent

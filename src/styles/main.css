@@ -1,74 +1,60 @@
 /* ============================================================
-   Theme tokens — aligned with the personal portfolio
+   Baseline neutre — la palette est définie par chaque thème
+   dans src/themes/<slug>/tokens.css (scopé :root[data-theme-slug="…"]).
    ============================================================ */
 
 :root {
-  --primary-color: #2980b9;
-  --primary-hover: hsl(204, 64%, 50%);
-  --primary-shadow: rgba(41, 128, 185, 0.2);
-  --button-shadow: hsl(220 65% 54% / 0.4);
-
-  --success-color: #2ecc71;
-  --success-bg: rgba(46, 204, 113, 0.1);
-  --error-color: #e74c3c;
-  --error-bg: rgba(231, 76, 60, 0.1);
-
+  /* Tokens transverses — fallbacks utilisés tant que le thème actif
+     n'a pas (encore) chargé ses propres variables. Les thèmes peuvent
+     les surcharger librement. */
   --radius-sm: 6px;
   --radius-md: 8px;
-  --radius-lg: 16px;
+  --radius-lg: 12px;
   --radius-pill: 999px;
 
   --transition-fast: 0.2s ease;
   --transition-base: 0.3s ease;
 
-  --font-sans: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
-}
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-serif: Georgia, "Times New Roman", serif;
 
-[data-theme='dark'] {
-  --body-background: rgb(2, 2, 2);
-  --surface-background: #10162477;
-  --surface-solid: #0a0e1a;
-  --surface-elevated: #101624;
-  --border-color: #232935;
-  --border-soft: rgba(255, 255, 255, 0.05);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.18);
 
-  --color-heading: #e0e0e0;
-  --color-text: #cccccc;
-  --color-muted: #b0b0b0;
-  --color-subtle: #6b7280;
+  /* Fallbacks de palette pour éviter le flash blanc avant chargement
+     des tokens du thème actif. */
+  --primary-color: #2980b9;
+  --primary-hover: #2563eb;
+  --primary-shadow: rgba(41, 128, 185, 0.2);
+  --button-shadow: rgba(41, 128, 185, 0.35);
 
-  --navbar-background: rgba(0, 0, 0, 0.9);
-  --input-background: #101624;
-  --input-border: #232935;
-  --input-focus-bg: #0a0e1a;
+  --success-color: #16a34a;
+  --success-bg: rgba(22, 163, 74, 0.1);
+  --error-color: #dc2626;
+  --error-bg: rgba(220, 38, 38, 0.1);
 
-  --code-background: rgba(255, 255, 255, 0.04);
-  --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
-  --shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.55);
-}
-
-[data-theme='light'] {
-  --body-background: rgb(250, 250, 250);
-  --surface-background: rgba(255, 255, 255, 0.92);
+  --body-background: #fafaf9;
+  --surface-background: rgba(255, 255, 255, 0.9);
   --surface-solid: #ffffff;
   --surface-elevated: #ffffff;
-  --border-color: #e0e0e0;
+  --surface-2: #f1f5f9;
+  --border-color: #e5e7eb;
   --border-soft: rgba(0, 0, 0, 0.06);
 
-  --color-heading: #3a3a3a;
-  --color-text: #464646;
-  --color-muted: #6b6b6b;
-  --color-subtle: #94a3b8;
+  --color-heading: #111827;
+  --color-text: #1f2937;
+  --color-muted: #6b7280;
+  --color-subtle: #9ca3af;
 
-  --navbar-background: rgba(255, 255, 255, 0.9);
+  --navbar-background: rgba(255, 255, 255, 0.92);
   --input-background: #ffffff;
-  --input-border: #e0e0e0;
-  --input-focus-bg: #f8fafc;
-
+  --input-border: #e5e7eb;
+  --input-focus-bg: #f9fafb;
   --code-background: rgba(0, 0, 0, 0.04);
-  --shadow-card: 0 8px 24px -10px rgba(15, 23, 42, 0.15);
-  --shadow-modal: 0 25px 50px -12px rgba(15, 23, 42, 0.18);
+  --shadow-card: var(--shadow-md);
+  --shadow-modal: var(--shadow-lg);
 }
 
 /* ============================================================
@@ -104,7 +90,7 @@ h2,
 h3,
 h4 {
   color: var(--color-heading);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-weight: 700;
   letter-spacing: -0.01em;
 }
@@ -228,7 +214,7 @@ textarea:focus {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: var(--border-color);
   border-radius: 10px;
 }
 
@@ -237,7 +223,7 @@ textarea:focus {
 }
 
 * {
-  scrollbar-color: #888 transparent;
+  scrollbar-color: var(--border-color) transparent;
 }
 
 /* ============================================================
@@ -263,10 +249,8 @@ textarea:focus {
    Leaflet integration
    ============================================================ */
 
-/* The map stays in light style at all times so that streets, labels and
-   waypoints remain readable regardless of the app theme. */
 .leaflet-container {
-  background: #f8fafc;
+  background: var(--surface-2, #f8fafc);
   font-family: var(--font-sans);
 }
 

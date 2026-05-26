@@ -1,0 +1,120 @@
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&family=IBM+Plex+Sans:wght@400;500&display=swap");
+
+:root[data-theme-slug="topographic"] {
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Sans", ui-monospace, monospace;
+  --font-serif: "EB Garamond", "Times New Roman", Georgia, serif;
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-pill: 4px; /* on étouffe les pills : esprit officiel */
+
+  --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.08);
+  --shadow-md: 0 2px 6px rgba(28, 25, 23, 0.12);
+  --shadow-lg: 0 4px 14px rgba(28, 25, 23, 0.16);
+}
+
+:root[data-theme-slug="topographic"][data-theme="light"] {
+  --primary-color: #4d7c0f;
+  --primary-hover: #65a30d;
+  --primary-shadow: rgba(77, 124, 15, 0.2);
+  --accent-color: #92400e;
+
+  --body-background: #fef3c7;
+  --surface-background: rgba(254, 252, 232, 0.95);
+  --surface-solid: #fefce8;
+  --surface-elevated: #fef9c3;
+  --surface-2: #fde68a;
+
+  --border-color: #d6d3d1;
+  --border-soft: rgba(120, 113, 108, 0.2);
+
+  --color-heading: #1c1917;
+  --color-text: #292524;
+  --color-muted: #57534e;
+  --color-subtle: #78716c;
+
+  --navbar-background: rgba(254, 243, 199, 0.95);
+  --input-background: #fefce8;
+  --input-border: #d6d3d1;
+  --input-focus-bg: #fef9c3;
+
+  --success-color: #4d7c0f;
+  --success-bg: rgba(77, 124, 15, 0.1);
+  --error-color: #b45309;
+  --error-bg: rgba(180, 83, 9, 0.1);
+
+  --button-shadow: rgba(77, 124, 15, 0.3);
+  --shadow-card: 0 2px 8px -2px rgba(28, 25, 23, 0.1);
+  --shadow-modal: 0 8px 24px -8px rgba(28, 25, 23, 0.18);
+
+  --code-background: rgba(0, 0, 0, 0.04);
+}
+
+:root[data-theme-slug="topographic"][data-theme="dark"] {
+  --primary-color: #84cc16;
+  --primary-hover: #a3e635;
+  --primary-shadow: rgba(132, 204, 22, 0.25);
+  --accent-color: #d97706;
+
+  --body-background: #1c1917;
+  --surface-background: rgba(28, 25, 23, 0.92);
+  --surface-solid: #292524;
+  --surface-elevated: #44403c;
+  --surface-2: #292524;
+
+  --border-color: #44403c;
+  --border-soft: rgba(214, 211, 209, 0.1);
+
+  --color-heading: #fef3c7;
+  --color-text: #fde68a;
+  --color-muted: #a8a29e;
+  --color-subtle: #78716c;
+
+  --navbar-background: rgba(28, 25, 23, 0.95);
+  --input-background: #292524;
+  --input-border: #44403c;
+  --input-focus-bg: #1c1917;
+
+  --success-color: #a3e635;
+  --success-bg: rgba(163, 230, 53, 0.12);
+  --error-color: #f59e0b;
+  --error-bg: rgba(245, 158, 11, 0.12);
+
+  --button-shadow: rgba(132, 204, 22, 0.35);
+  --shadow-card: 0 4px 12px -4px rgba(0, 0, 0, 0.5);
+  --shadow-modal: 0 16px 40px -12px rgba(0, 0, 0, 0.6);
+
+  --code-background: rgba(255, 255, 255, 0.04);
+}
+
+/* Titres en serif EB Garamond, body en sans IBM Plex */
+:root[data-theme-slug="topographic"] h1,
+:root[data-theme-slug="topographic"] h2,
+:root[data-theme-slug="topographic"] h3,
+:root[data-theme-slug="topographic"] h4 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+/* Transitions très lentes, fade-only */
+:root[data-theme-slug="topographic"] .btn,
+:root[data-theme-slug="topographic"] button {
+  transition: background-color 500ms ease, color 500ms ease, border-color 500ms ease;
+}
+
+:root[data-theme-slug="topographic"] .btn:hover {
+  transform: none !important;
+}
+
+/* Carte stylée papier : grayscale + sepia adoucis */
+:root[data-theme-slug="topographic"] .leaflet-container {
+  background: #fef3c7;
+  filter: sepia(0.2) contrast(0.92);
+}
+
+:root[data-theme-slug="topographic"][data-theme="dark"] .leaflet-container {
+  filter: invert(0.92) hue-rotate(180deg) sepia(0.25) contrast(0.9);
+}
