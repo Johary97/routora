@@ -1,6 +1,5 @@
 <template>
   <div class="fc-shell">
-    <!-- HEADER : compact, flotte au-dessus -->
     <header class="fc-header">
       <slot name="brand" />
       <div class="fc-header-actions">
@@ -8,9 +7,7 @@
       </div>
     </header>
 
-    <!-- WORKSPACE :
-         Desktop ≥1024 : panel 400px left + map droite
-         Mobile : map full-screen + bottom-sheet 3 paliers -->
+    <!-- Desktop : panel 400px + carte. Mobile : carte plein écran + bottom-sheet 3 paliers. -->
     <main class="fc-workspace" :data-sheet-state="sheetState">
       <section class="fc-panel" aria-label="Panneau étapes">
         <div class="fc-panel-inner">
@@ -27,7 +24,6 @@
         <slot name="map" />
       </section>
 
-      <!-- Handle pour la bottom-sheet (mobile uniquement) -->
       <button
         type="button"
         class="fc-sheet-handle"
@@ -124,12 +120,11 @@ function cycleSheet() {
   border: none;
 }
 
-/* Handle bottom-sheet : caché en desktop */
 .fc-sheet-handle {
   display: none;
 }
 
-/* MOBILE — bottom-sheet 3 paliers, map plein écran en background */
+/* Mobile : bottom-sheet 3 paliers, carte en arrière-plan. */
 @media (max-width: 1023px) {
   .fc-workspace {
     display: block;

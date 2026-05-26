@@ -1,14 +1,5 @@
-/**
- * Route optimization — pure geometry.
- * Input : ordered list of waypoints [{ lat, lng, ... }]
- * Output: a new ordering minimising total path length, with origin fixed in place.
- *
- * Algorithm:
- *   1. Nearest-Neighbor starting from index 0 (the user-defined origin).
- *   2. 2-opt local search to escape obvious crossings.
- *
- * Distances are great-circle (Haversine). Returns kilometres.
- */
+// Optimisation TSP en deux temps : nearest neighbor depuis le point de départ
+// (index 0, verrouillé), puis 2-opt. Distances Haversine, en kilomètres.
 
 const EARTH_RADIUS_KM = 6371
 
@@ -76,10 +67,8 @@ function nearestNeighborOrder(matrix, startIndex = 0) {
   return order
 }
 
-/**
- * 2-opt: repeatedly reverse subsequences that shorten the total length.
- * Origin (index 0 of `order`) is locked in first position.
- */
+// Index 0 reste verrouillé en première position. La borne supérieure de k
+// dépend de closeLoop : sans boucle, on ne touche pas au dernier sommet.
 function twoOpt(order, matrix, closeLoop, maxIterations = 200) {
   const n = order.length
   if (n < 4) return order
@@ -112,17 +101,7 @@ function twoOpt(order, matrix, closeLoop, maxIterations = 200) {
   return best
 }
 
-/**
- * Optimise the visit order.
- *
- * @param {Array<{lat:number, lng:number}>} waypoints
- *   Waypoints in user-provided order. `waypoints[0]` is treated as the origin
- *   and stays fixed at position 0 in the result.
- * @param {Object} [options]
- * @param {boolean} [options.closeLoop=false]  If true, the tour returns to origin.
- * @returns {{ order:number[], orderedWaypoints:Array, distanceKm:number,
- *             improvedFromKm:number, improvementPct:number }}
- */
+// waypoints[0] est le point de départ et reste en position 0.
 export function optimizeRoute(waypoints, options = {}) {
   const closeLoop = options.closeLoop === true
   const n = waypoints.length
@@ -160,9 +139,6 @@ export function optimizeRoute(waypoints, options = {}) {
   }
 }
 
-/**
- * Quick total distance of the current order without reordering.
- */
 export function measureRoute(waypoints, closeLoop = false) {
   if (waypoints.length < 2) return 0
   let total = 0
@@ -175,10 +151,7 @@ export function measureRoute(waypoints, closeLoop = false) {
   return total
 }
 
-/**
- * Rough driving time estimate when no routing service is available.
- * Assumes an average of 40 km/h door-to-door (urban mix with stops).
- */
+// Fallback durée quand OSRM ne répond pas : moyenne 40 km/h porte-à-porte.
 export function estimateDurationMinutes(distanceKm, stopDurationMin = 0, stopCount = 0) {
   const drivingMin = (distanceKm / 40) * 60
   return Math.round(drivingMin + stopDurationMin * stopCount)

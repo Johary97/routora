@@ -1,8 +1,8 @@
 <template>
   <div class="waypoint-list">
     <div v-if="waypoints.length === 0" class="empty-state">
-      <p>Aucune étape pour l'instant.</p>
-      <p class="hint">Recherchez une adresse ou cliquez sur la carte pour commencer.</p>
+      <p>Aucune étape.</p>
+      <p class="hint">Ajoutez une étape via la recherche d'adresse ou un clic sur la carte.</p>
     </div>
 
     <draggable

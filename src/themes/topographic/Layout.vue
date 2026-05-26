@@ -17,7 +17,7 @@
       <aside class="topo-side" aria-label="Étapes">
         <div class="topo-side-inner">
           <section class="topo-block">
-            <h2 class="topo-section-title">Repérer</h2>
+            <h2 class="topo-section-title">Localisation</h2>
             <slot name="address-search" />
             <slot name="route-controls" />
           </section>

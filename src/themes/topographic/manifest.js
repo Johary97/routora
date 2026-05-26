@@ -1,11 +1,10 @@
 export default {
   slug: 'topographic',
   name: 'Topographic',
-  description: "Carte topographique vintage : papier kraft, lignes de niveau, tempo contemplatif.",
+  description: "Tuiles OpenTopoMap avec lignes de niveau, palette papier.",
   swatch: 'linear-gradient(135deg, #fef3c7 0%, #4d7c0f 55%, #92400e 100%)',
   defaultMode: 'light',
-  // OpenTopoMap : vraie carte topographique (lignes de niveau, relief), gratuite,
-  // sans auth. Subdomains a/b/c. Max zoom natif = 17, on upscale au-delà.
+  // OpenTopoMap : sans auth. Zoom natif max = 17, Leaflet upscale au-delà.
   mapTileUrl: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
   mapTileAttribution:
     'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>, ' +

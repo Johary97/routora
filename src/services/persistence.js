@@ -1,8 +1,4 @@
-/**
- * Tiny persistence layer:
- *  - localStorage snapshot of the current route
- *  - share-link encoding (base64 of compact JSON) carried via the URL hash
- */
+// Snapshot localStorage + encodage du lien de partage (base64 dans le hash).
 
 const STORAGE_KEY = 'routora.snapshot.v1'
 
@@ -10,7 +6,7 @@ export function saveSnapshot(snapshot) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot))
   } catch (_) {
-    /* storage full or disabled — ignore */
+    // localStorage plein ou désactivé
   }
 }
 

@@ -1,10 +1,4 @@
-/**
- * Lightweight wrapper around the public Nominatim service (OpenStreetMap).
- * No API key required. Be a good citizen:
- *  - Always send a meaningful Referer / app identifier via the `app` param.
- *  - At most ~1 request per second.
- *  - Cache aggressively for repeated queries.
- */
+// Nominatim public : ~1 req/s, pas de clé. Cache mémoire pour limiter le trafic.
 
 const NOMINATIM_BASE = 'https://nominatim.openstreetmap.org'
 const cache = new Map()

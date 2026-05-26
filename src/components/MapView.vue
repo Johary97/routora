@@ -32,8 +32,6 @@ const tileAttribution = computed(
 const mapFilter = computed(() => manifest.value.mapFilter || 'none')
 const tileMaxNativeZoom = computed(() => manifest.value.mapTileMaxNativeZoom || 19)
 
-const _DEFAULT_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-
 function makeDivIcon(label, isOrigin) {
   return L.divIcon({
     className: '',

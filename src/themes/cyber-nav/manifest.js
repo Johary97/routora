@@ -1,7 +1,7 @@
 export default {
   slug: 'cyber-nav',
   name: 'Cyber Nav',
-  description: "HUD futuriste tech-noir : overlays aux 4 coins, scanline, glow néon.",
+  description: "Tuiles sombres CARTO, HUD aux quatre coins, scanline.",
   swatch: 'linear-gradient(135deg, #020617 0%, #22d3ee 50%, #e879f9 100%)',
   defaultMode: 'dark',
   mapTileUrl:

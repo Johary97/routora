@@ -1,6 +1,5 @@
 <template>
   <ThemeBoundary>
-    <!-- Brand : injecté dans le header de chaque thème -->
     <template #brand>
       <a href="#" class="brand" @click.prevent="goHome" aria-label="Routora">
         <svg class="brand-mark" viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -12,13 +11,12 @@
       </a>
     </template>
 
-    <!-- Actions header (Share) -->
     <template #header-actions>
       <button
         v-if="waypoints.length > 0"
         type="button"
         class="btn btn-ghost"
-        :title="copied ? 'Lien copié' : 'Copier un lien partageable'"
+        :title="copied ? 'Lien copié' : 'Copier le lien de la tournée'"
         @click="copyShareLink"
       >
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -29,16 +27,14 @@
       </button>
     </template>
 
-    <!-- Recherche d'adresse -->
     <template #address-search>
       <div class="slot-block">
         <h3 class="slot-title">Ajouter une étape</h3>
         <AddressSearch @select="onAddressSelect" />
-        <p class="slot-hint">Ou cliquez n'importe où sur la carte pour déposer une étape.</p>
+        <p class="slot-hint">Ou cliquez sur la carte pour déposer une étape.</p>
       </div>
     </template>
 
-    <!-- Boucle retour / contrôles itinéraire -->
     <template #route-controls>
       <label v-if="waypoints.length > 1" class="loop-toggle">
         <input type="checkbox" v-model="closeLoop" />
@@ -46,7 +42,6 @@
       </label>
     </template>
 
-    <!-- Liste de waypoints -->
     <template #waypoints>
       <div class="slot-block">
         <div class="slot-head">
@@ -63,19 +58,17 @@
       </div>
     </template>
 
-    <!-- Actions principales -->
     <template #actions>
       <div v-if="waypoints.length > 1" class="action-row">
         <button type="button" class="btn btn-primary" :disabled="optimizing" @click="optimize">
           {{ optimizing ? 'Optimisation…' : "Optimiser l'ordre" }}
         </button>
         <button v-if="waypoints.length > 0" type="button" class="btn btn-ghost" @click="clearAll">
-          Tout réinitialiser
+          Réinitialiser
         </button>
       </div>
     </template>
 
-    <!-- Stats -->
     <template #stats>
       <div v-if="waypoints.length > 0" class="slot-block">
         <StatsBar
@@ -85,17 +78,15 @@
           :improvement-pct="improvementPct"
         />
         <p v-if="routeSource === 'straight-line' && waypoints.length > 1" class="route-source">
-          Itinéraire affiché à vol d'oiseau (service routier indisponible).
+          Tracé à vol d'oiseau — OSRM indisponible.
         </p>
       </div>
     </template>
 
-    <!-- Erreurs -->
     <template #errors>
       <p v-if="errorMessage" class="error-banner">{{ errorMessage }}</p>
     </template>
 
-    <!-- Carte -->
     <template #map>
       <MapView
         :waypoints="waypoints"
@@ -247,7 +238,7 @@ function clearAll() {
 
 async function optimize() {
   if (waypoints.value.length < 3) {
-    errorMessage.value = 'Ajoutez au moins 3 étapes pour optimiser.'
+    errorMessage.value = 'Au moins 3 étapes sont nécessaires.'
     return
   }
   errorMessage.value = ''
@@ -269,7 +260,7 @@ async function copyShareLink() {
     copied.value = true
     setTimeout(() => { copied.value = false }, 1800)
   } catch (_) {
-    errorMessage.value = 'Impossible de copier le lien automatiquement.'
+    errorMessage.value = 'Copie du lien impossible.'
   }
 }
 

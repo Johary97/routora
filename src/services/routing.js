@@ -1,10 +1,5 @@
-/**
- * Wrapper around the public OSRM router (https://router.project-osrm.org).
- * Returns a polyline (GeoJSON LineString) plus distance & duration.
- *
- * If the call fails (offline, rate-limit, etc.) we fall back to straight lines
- * computed from the waypoint coordinates so the UI keeps working.
- */
+// OSRM public. Si l'appel échoue (offline, rate-limit), on retombe sur des
+// segments en ligne droite pour ne pas casser l'UI.
 
 const OSRM_BASE = 'https://router.project-osrm.org/route/v1/driving'
 

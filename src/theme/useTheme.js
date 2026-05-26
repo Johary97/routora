@@ -25,9 +25,6 @@ function readPersistedMode(defaultMode) {
   return defaultMode
 }
 
-/**
- * Crée le store thématique réactif. Appelé une seule fois dans main.js.
- */
 export function createThemeStore() {
   const slug = ref(readPersistedSlug())
   const initialManifest = getTheme(slug.value).manifest
@@ -125,21 +122,14 @@ export function createThemeStore() {
   }
 }
 
-/**
- * Plugin Vue : enregistre le store thématique via app.provide.
- */
 export const ThemePlugin = {
   install(app) {
     const store = createThemeStore()
     app.provide(THEME_INJECTION_KEY, store)
-    // Aussi exposé globalement pour debug & composants externes
     app.config.globalProperties.$theme = store
   }
 }
 
-/**
- * Composable principal pour les composants consommateurs.
- */
 export function useTheme() {
   const store = inject(THEME_INJECTION_KEY, null)
   if (!store) {

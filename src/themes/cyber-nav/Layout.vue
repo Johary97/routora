@@ -10,15 +10,12 @@
     </header>
 
     <main class="cn-main">
-      <!-- Map en background plein -->
       <div class="cn-map" aria-label="Carte navigation">
         <slot name="map" />
       </div>
 
-      <!-- Scanline overlay -->
       <div class="cn-scanline" aria-hidden="true" />
 
-      <!-- HUD aux 4 coins -->
       <div class="cn-hud cn-hud-tl">
         <div class="cn-hud-label">SPEED</div>
         <div class="cn-hud-value">{{ hud.speed }} <span class="cn-hud-unit">km/h</span></div>
@@ -39,7 +36,6 @@
         <div class="cn-hud-value">{{ hud.weather }}</div>
       </div>
 
-      <!-- Panneau opérations à droite (au-dessus de la map) -->
       <aside class="cn-panel" aria-label="Console étapes">
         <div class="cn-panel-bar">
           <span class="cn-panel-title">// ROUTE.OPS</span>
@@ -68,7 +64,7 @@ import AppFab from '@components/AppFab.vue'
 
 const panelOpen = ref(true)
 
-// Données HUD fake — purement décoratives
+// HUD purement décoratif.
 const hud = ref({
   speed: '00',
   eta: '--:--',
@@ -111,7 +107,7 @@ const hud = ref({
   gap: 0.4rem;
 }
 
-/* Repositionne le FAB pour éviter le HUD bottom-right */
+/* Évite le chevauchement avec le HUD bottom-right. */
 .cn-shell :deep(.app-fab) {
   bottom: 5.5rem;
   right: 1rem;
@@ -144,7 +140,6 @@ const hud = ref({
   border: none;
 }
 
-/* Scanline */
 .cn-scanline {
   position: absolute;
   inset: 0;
@@ -171,7 +166,6 @@ const hud = ref({
   }
 }
 
-/* HUD aux 4 coins */
 .cn-hud {
   position: absolute;
   z-index: 10;
@@ -229,7 +223,6 @@ const hud = ref({
   color: var(--color-muted);
 }
 
-/* Panel droit */
 .cn-panel {
   position: absolute;
   top: 1rem;
@@ -303,7 +296,7 @@ const hud = ref({
   }
   .cn-hud-tr,
   .cn-hud-br {
-    display: none; /* éviter de coller au panel mobile */
+    display: none; /* collision avec le panel mobile */
   }
 }
 </style>
