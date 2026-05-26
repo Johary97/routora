@@ -65,12 +65,15 @@ const active = computed(
 
 const dropdownStyle = computed(() => {
   if (!coords.value) return { visibility: 'hidden' }
-  return {
+  const base = {
     position: 'fixed',
-    top: `${coords.value.top}px`,
     right: `${coords.value.right}px`,
     zIndex: 9999,
   }
+  if (coords.value.fromBottom) {
+    return { ...base, bottom: `${coords.value.bottom}px` }
+  }
+  return { ...base, top: `${coords.value.top}px` }
 })
 
 function toggleOpen() {
@@ -84,8 +87,22 @@ function onPick(nextSlug) {
 
 function computeCoords() {
   if (!rootRef.value) return
+  const DROPDOWN_HEIGHT = 280
   const r = rootRef.value.getBoundingClientRect()
-  coords.value = { top: r.bottom + 8, right: window.innerWidth - r.right }
+  const wantsTop = r.bottom + DROPDOWN_HEIGHT + 16 > window.innerHeight
+  if (wantsTop) {
+    coords.value = {
+      fromBottom: true,
+      bottom: window.innerHeight - r.top + 8,
+      right: window.innerWidth - r.right,
+    }
+  } else {
+    coords.value = {
+      fromBottom: false,
+      top: r.bottom + 8,
+      right: window.innerWidth - r.right,
+    }
+  }
 }
 
 function onClickOutside(event) {

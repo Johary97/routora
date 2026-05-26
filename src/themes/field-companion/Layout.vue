@@ -5,21 +5,6 @@
       <slot name="brand" />
       <div class="fc-header-actions">
         <slot name="header-actions" />
-        <ThemeSwitcher />
-        <button
-          type="button"
-          class="fc-mode-toggle"
-          :aria-label="mode === 'dark' ? 'Activer le mode clair' : 'Activer le mode sombre'"
-          @click="toggleMode"
-        >
-          <svg v-if="mode === 'dark'" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="4" />
-            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-          </svg>
-          <svg v-else viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-          </svg>
-        </button>
       </div>
     </header>
 
@@ -52,15 +37,15 @@
         <span class="fc-sheet-grip" aria-hidden="true" />
       </button>
     </main>
+
+    <AppFab />
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { useTheme } from '@theme/useTheme.js'
-import ThemeSwitcher from '@theme/ThemeSwitcher.vue'
+import AppFab from '@components/AppFab.vue'
 
-const { mode, toggleMode } = useTheme()
 const sheetState = ref('half') // collapsed | half | expanded
 
 function cycleSheet() {
@@ -102,26 +87,6 @@ function cycleSheet() {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-}
-
-.fc-mode-toggle {
-  width: 42px;
-  height: 42px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border-color);
-  background: var(--surface-solid);
-  color: var(--color-text);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-}
-
-.fc-mode-toggle:hover {
-  transform: translateY(-1px);
-  border-color: var(--primary-color);
-  color: var(--primary-color);
 }
 
 .fc-workspace {
