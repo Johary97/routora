@@ -30,6 +30,7 @@ const tileAttribution = computed(
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 )
 const mapFilter = computed(() => manifest.value.mapFilter || 'none')
+const tileMaxNativeZoom = computed(() => manifest.value.mapTileMaxNativeZoom || 19)
 
 const _DEFAULT_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 
@@ -109,7 +110,8 @@ onMounted(async () => {
 
   tileLayer = L.tileLayer(tileUrl.value, {
     attribution: tileAttribution.value,
-    maxZoom: 19
+    maxZoom: 19,
+    maxNativeZoom: tileMaxNativeZoom.value
   }).addTo(map)
   applyMapFilter()
 
@@ -146,12 +148,13 @@ function swapTileLayer() {
   }
   tileLayer = L.tileLayer(tileUrl.value, {
     attribution: tileAttribution.value,
-    maxZoom: 19
+    maxZoom: 19,
+    maxNativeZoom: tileMaxNativeZoom.value
   }).addTo(map)
   applyMapFilter()
 }
 
-watch(tileUrl, () => swapTileLayer())
+watch([tileUrl, tileMaxNativeZoom], () => swapTileLayer())
 watch(mapFilter, () => applyMapFilter())
 
 defineExpose({
