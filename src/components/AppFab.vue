@@ -3,16 +3,16 @@
   <div ref="rootRef" class="app-fab" :data-open="open ? 'true' : 'false'">
     <ul class="fab-actions" :aria-hidden="open ? 'false' : 'true'">
       <li class="fab-action">
-        <span class="fab-label">Thème</span>
+        <span class="fab-label">{{ t('fab.themeLabel') }}</span>
         <ThemeSwitcher />
       </li>
 
       <li class="fab-action">
-        <span class="fab-label">{{ mode === 'dark' ? 'Mode clair' : 'Mode sombre' }}</span>
+        <span class="fab-label">{{ mode === 'dark' ? t('header.modeLight') : t('header.modeDark') }}</span>
         <button
           type="button"
           class="fab-btn"
-          :aria-label="mode === 'dark' ? 'Activer le mode clair' : 'Activer le mode sombre'"
+          :aria-label="mode === 'dark' ? t('header.activateModeLight') : t('header.activateModeDark')"
           @click="toggleMode"
         >
           <svg v-if="mode === 'dark'" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -24,6 +24,18 @@
           </svg>
         </button>
       </li>
+
+      <li class="fab-action">
+        <span class="fab-label">{{ nextLangLabel }}</span>
+        <button
+          type="button"
+          class="fab-btn fab-btn-lang"
+          :aria-label="t('header.languageToggle')"
+          @click="switchLang"
+        >
+          <span class="fab-lang-code">{{ currentLangCode }}</span>
+        </button>
+      </li>
     </ul>
 
     <button
@@ -31,7 +43,7 @@
       class="fab-main"
       :aria-expanded="open ? 'true' : 'false'"
       aria-haspopup="menu"
-      aria-label="Paramètres"
+      :aria-label="open ? t('fab.closeMenu') : t('header.settings')"
       @click="toggleOpen"
     >
       <svg v-if="open" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -47,14 +59,27 @@
 </template>
 
 <script setup>
-import { ref, watch, onBeforeUnmount } from 'vue'
+import { ref, computed, watch, onBeforeUnmount } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useTheme } from '@theme/useTheme.js'
+import { setLocale } from '@/i18n/index.js'
 import ThemeSwitcher from '@theme/ThemeSwitcher.vue'
 
+const { t, locale } = useI18n()
 const { mode, toggleMode } = useTheme()
 
 const open = ref(false)
 const rootRef = ref(null)
+
+// Le bouton affiche la locale ACTIVE (FR/EN) et la pill libellée propose la suivante.
+const currentLangCode = computed(() => (locale.value === 'en' ? 'EN' : 'FR'))
+const nextLangLabel = computed(() =>
+  locale.value === 'en' ? t('header.languageFrench') : t('header.languageEnglish')
+)
+
+function switchLang() {
+  setLocale(locale.value === 'en' ? 'fr' : 'en')
+}
 
 function toggleOpen() {
   open.value = !open.value
@@ -63,8 +88,7 @@ function toggleOpen() {
 function onPointerDown(e) {
   if (!rootRef.value) return
   if (rootRef.value.contains(e.target)) return
-  // Le ThemeSwitcher téléporte son dropdown dans body. Garde-le ouvert
-  // si le clic est à l'intérieur — sinon on referme tout.
+  // ThemeSwitcher : dropdown téléporté dans body, ignoré ici.
   if (e.target.closest && e.target.closest('[role="listbox"]')) return
   open.value = false
 }
@@ -164,6 +188,13 @@ onBeforeUnmount(() => {
 .fab-btn:focus-visible {
   outline: 2px solid var(--primary-color, #2563eb);
   outline-offset: 2px;
+}
+
+.fab-btn-lang .fab-lang-code {
+  font-family: var(--font-mono, "JetBrains Mono", ui-monospace, monospace);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
 }
 
 .fab-main {

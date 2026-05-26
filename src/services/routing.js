@@ -1,5 +1,4 @@
-// OSRM public. Si l'appel échoue (offline, rate-limit), on retombe sur des
-// segments en ligne droite pour ne pas casser l'UI.
+// OSRM public. Fallback en segments rectilignes en cas d'échec (offline, rate-limit).
 
 const OSRM_BASE = 'https://router.project-osrm.org/route/v1/driving'
 

@@ -9,7 +9,7 @@
 
     <!-- Desktop : panel 400px + carte. Mobile : carte plein écran + bottom-sheet 3 paliers. -->
     <main class="fc-workspace" :data-sheet-state="sheetState">
-      <section class="fc-panel" aria-label="Panneau étapes">
+      <section class="fc-panel" :aria-label="t('sheet.ariaPanel')">
         <div class="fc-panel-inner">
           <slot name="address-search" />
           <slot name="route-controls" />
@@ -20,14 +20,14 @@
         </div>
       </section>
 
-      <section class="fc-map" aria-label="Carte">
+      <section class="fc-map" :aria-label="t('map.ariaDefault')">
         <slot name="map" />
       </section>
 
       <button
         type="button"
         class="fc-sheet-handle"
-        :aria-label="`Bottom sheet : ${sheetState}`"
+        :aria-label="t('sheet.ariaLabel', { state: sheetState })"
         @click="cycleSheet"
       >
         <span class="fc-sheet-grip" aria-hidden="true" />
@@ -40,7 +40,10 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import AppFab from '@components/AppFab.vue'
+
+const { t } = useI18n()
 
 const sheetState = ref('half') // collapsed | half | expanded
 

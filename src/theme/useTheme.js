@@ -50,8 +50,7 @@ export function createThemeStore() {
 
     const apply = () => {
       slug.value = nextSlug
-      // Le nouveau thème peut imposer un mode de base différent ;
-      // on respecte la persistance utilisateur mais on bascule si elle est absente.
+      // defaultMode du thème appliqué uniquement si aucune préférence persistée.
       const nextManifest = getTheme(nextSlug).manifest
       try {
         const stored = localStorage.getItem(MODE_STORAGE_KEY)

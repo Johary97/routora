@@ -10,20 +10,20 @@
     </header>
 
     <main class="topo-main">
-      <div class="topo-map" aria-label="Carte topographique">
+      <div class="topo-map" :aria-label="t('map.ariaTopographic')">
         <slot name="map" />
       </div>
 
-      <aside class="topo-side" aria-label="Étapes">
+      <aside class="topo-side" :aria-label="t('sheet.ariaSteps')">
         <div class="topo-side-inner">
           <section class="topo-block">
-            <h2 class="topo-section-title">Localisation</h2>
+            <h2 class="topo-section-title">{{ t('panel.location') }}</h2>
             <slot name="address-search" />
             <slot name="route-controls" />
           </section>
 
           <section class="topo-block">
-            <h2 class="topo-section-title">Itinéraire</h2>
+            <h2 class="topo-section-title">{{ t('panel.route') }}</h2>
             <slot name="waypoints" />
             <slot name="actions" />
           </section>
@@ -41,7 +41,10 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n'
 import AppFab from '@components/AppFab.vue'
+
+const { t } = useI18n()
 </script>
 
 <style scoped>

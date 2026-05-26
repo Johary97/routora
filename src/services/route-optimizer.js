@@ -67,8 +67,8 @@ function nearestNeighborOrder(matrix, startIndex = 0) {
   return order
 }
 
-// Index 0 reste verrouillé en première position. La borne supérieure de k
-// dépend de closeLoop : sans boucle, on ne touche pas au dernier sommet.
+// Index 0 verrouillé en première position. Borne supérieure de k dépendante
+// de closeLoop : sans boucle, le dernier sommet reste fixe.
 function twoOpt(order, matrix, closeLoop, maxIterations = 200) {
   const n = order.length
   if (n < 4) return order

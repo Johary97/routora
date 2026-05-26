@@ -1,7 +1,7 @@
 <template>
   <ThemeBoundary>
     <template #brand>
-      <a href="#" class="brand" @click.prevent="goHome" aria-label="Routora">
+      <a href="#" class="brand" @click.prevent="goHome" :aria-label="t('home.brandAria')">
         <svg class="brand-mark" viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <circle cx="7" cy="7" r="3" />
           <circle cx="25" cy="25" r="3" />
@@ -16,29 +16,29 @@
         v-if="waypoints.length > 0"
         type="button"
         class="btn btn-ghost"
-        :title="copied ? 'Lien copié' : 'Copier le lien de la tournée'"
+        :title="copied ? t('actions.shareCopied') : t('actions.shareTitle')"
         @click="copyShareLink"
       >
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
           <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
         </svg>
-        {{ copied ? 'Lien copié' : 'Partager' }}
+        {{ copied ? t('actions.shareCopied') : t('actions.share') }}
       </button>
     </template>
 
     <template #address-search>
       <div class="slot-block">
-        <h3 class="slot-title">Ajouter une étape</h3>
+        <h3 class="slot-title">{{ t('panel.addStop') }}</h3>
         <AddressSearch @select="onAddressSelect" />
-        <p class="slot-hint">Ou cliquez sur la carte pour déposer une étape.</p>
+        <p class="slot-hint">{{ t('home.hint') }}</p>
       </div>
     </template>
 
     <template #route-controls>
       <label v-if="waypoints.length > 1" class="loop-toggle">
         <input type="checkbox" v-model="closeLoop" />
-        <span>Retour au départ</span>
+        <span>{{ t('panel.closeLoop') }}</span>
       </label>
     </template>
 
@@ -46,7 +46,7 @@
       <div class="slot-block">
         <div class="slot-head">
           <h3 class="slot-title">
-            Itinéraire
+            {{ t('panel.route') }}
             <span v-if="waypoints.length > 0" class="counter">{{ waypoints.length }}</span>
           </h3>
         </div>
@@ -61,10 +61,10 @@
     <template #actions>
       <div v-if="waypoints.length > 1" class="action-row">
         <button type="button" class="btn btn-primary" :disabled="optimizing" @click="optimize">
-          {{ optimizing ? 'Optimisation…' : "Optimiser l'ordre" }}
+          {{ optimizing ? t('actions.optimizing') : t('actions.optimize') }}
         </button>
         <button v-if="waypoints.length > 0" type="button" class="btn btn-ghost" @click="clearAll">
-          Réinitialiser
+          {{ t('common.reset') }}
         </button>
       </div>
     </template>
@@ -78,7 +78,7 @@
           :improvement-pct="improvementPct"
         />
         <p v-if="routeSource === 'straight-line' && waypoints.length > 1" class="route-source">
-          Tracé à vol d'oiseau — OSRM indisponible.
+          {{ t('stats.straightLine') }}
         </p>
       </div>
     </template>
@@ -100,12 +100,15 @@
 
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import ThemeBoundary from '@theme/ThemeBoundary.vue'
 
 import MapView from './components/MapView.vue'
 import AddressSearch from './components/AddressSearch.vue'
 import WaypointList from './components/WaypointList.vue'
 import StatsBar from './components/StatsBar.vue'
+
+const { t } = useI18n()
 
 import { optimizeRoute, measureRoute, estimateDurationMinutes } from './services/route-optimizer.js'
 import { reverseGeocode } from './services/geocoding.js'
@@ -238,7 +241,7 @@ function clearAll() {
 
 async function optimize() {
   if (waypoints.value.length < 3) {
-    errorMessage.value = 'Au moins 3 étapes sont nécessaires.'
+    errorMessage.value = t('errors.minThreeStops')
     return
   }
   errorMessage.value = ''
@@ -260,7 +263,7 @@ async function copyShareLink() {
     copied.value = true
     setTimeout(() => { copied.value = false }, 1800)
   } catch (_) {
-    errorMessage.value = 'Copie du lien impossible.'
+    errorMessage.value = t('errors.shareCopyFailed')
   }
 }
 

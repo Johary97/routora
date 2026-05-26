@@ -10,7 +10,7 @@
     </header>
 
     <main class="cn-main">
-      <div class="cn-map" aria-label="Carte navigation">
+      <div class="cn-map" :aria-label="t('map.ariaCyber')">
         <slot name="map" />
       </div>
 
@@ -36,7 +36,7 @@
         <div class="cn-hud-value">{{ hud.weather }}</div>
       </div>
 
-      <aside class="cn-panel" aria-label="Console étapes">
+      <aside class="cn-panel" :aria-label="t('sheet.ariaConsole')">
         <div class="cn-panel-bar">
           <span class="cn-panel-title">// ROUTE.OPS</span>
           <button type="button" class="cn-panel-toggle" @click="panelOpen = !panelOpen">
@@ -60,7 +60,10 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import AppFab from '@components/AppFab.vue'
+
+const { t } = useI18n()
 
 const panelOpen = ref(true)
 

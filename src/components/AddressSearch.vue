@@ -9,7 +9,7 @@
         ref="inputRef"
         v-model="query"
         type="search"
-        :placeholder="placeholder"
+        :placeholder="placeholder || t('addressSearch.placeholder')"
         autocomplete="off"
         spellcheck="false"
         @keydown.enter.prevent="onEnter"
@@ -19,14 +19,14 @@
         @focus="onFocus"
         @blur="onBlur"
       />
-      <button v-if="query" type="button" class="clear-btn" @mousedown.prevent="clear" aria-label="Effacer">✕</button>
+      <button v-if="query" type="button" class="clear-btn" @mousedown.prevent="clear" :aria-label="t('common.clear')">✕</button>
     </div>
 
     <div v-if="showResults" class="results-pane">
-      <div v-if="loading" class="results-status">Recherche…</div>
+      <div v-if="loading" class="results-status">{{ t('addressSearch.loading') }}</div>
       <div v-else-if="error" class="results-status error">{{ error }}</div>
       <div v-else-if="results.length === 0 && query.length >= 3" class="results-status">
-        Aucune adresse trouvée
+        {{ t('addressSearch.noResults') }}
       </div>
       <ul v-else class="results-list" role="listbox">
         <li
@@ -48,10 +48,13 @@
 
 <script setup>
 import { ref, computed, watch, onBeforeUnmount } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { searchAddress } from '../services/geocoding.js'
 
+const { t } = useI18n()
+
 defineProps({
-  placeholder: { type: String, default: 'Rechercher une adresse, une ville…' }
+  placeholder: { type: String, default: '' }
 })
 
 const emit = defineEmits(['select'])
@@ -92,7 +95,7 @@ function runSearch(value) {
       activeIndex.value = results.value.length > 0 ? 0 : -1
     } catch (e) {
       if (e.name !== 'AbortError') {
-        error.value = e.message || 'Erreur de recherche'
+        error.value = e.message || t('addressSearch.errorGeneric')
         results.value = []
       }
     } finally {

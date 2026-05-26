@@ -1,0 +1,101 @@
+{
+  "common": {
+    "loading": "Loading…",
+    "back": "Back",
+    "reset": "Reset",
+    "close": "Close",
+    "cancel": "Cancel",
+    "clear": "Clear",
+    "remove": "Remove"
+  },
+  "header": {
+    "title": "Routora",
+    "subtitle": "Route planning",
+    "settings": "Settings",
+    "themeToggle": "Toggle light / dark",
+    "modeLight": "Light mode",
+    "modeDark": "Dark mode",
+    "activateModeLight": "Switch to light mode",
+    "activateModeDark": "Switch to dark mode",
+    "languageToggle": "Change language",
+    "languageFrench": "Français",
+    "languageEnglish": "English"
+  },
+  "home": {
+    "title": "Multi-stop route",
+    "lede": "Sequence stops, optimize visit order, render the real driving route.",
+    "hint": "Click the map to add a stop.",
+    "brandAria": "Routora — back to home"
+  },
+  "panel": {
+    "addStop": "Add a stop",
+    "route": "Route",
+    "location": "Location",
+    "closeLoop": "Return to start",
+    "consoleTitle": "// ROUTE.OPS"
+  },
+  "addressSearch": {
+    "placeholder": "Search an address or city…",
+    "loading": "Searching…",
+    "noResults": "No address found",
+    "errorGeneric": "Search error"
+  },
+  "waypoints": {
+    "empty": "No stops yet.",
+    "addHint": "Search an address or click the map to add a stop.",
+    "origin": "Starting point",
+    "stop": "Stop {index}",
+    "dragHint": "Drag to reorder",
+    "removeOrigin": "Remove the starting point",
+    "removeStop": "Remove this stop"
+  },
+  "actions": {
+    "optimize": "Optimize order",
+    "optimizing": "Optimizing…",
+    "share": "Share",
+    "shareTitle": "Copy route link",
+    "shareCopied": "Link copied"
+  },
+  "stats": {
+    "stops": "stops",
+    "distance": "distance",
+    "duration": "estimated time",
+    "improvement": "optimization gain",
+    "straightLine": "Straight-line route — OSRM unavailable."
+  },
+  "errors": {
+    "minThreeStops": "At least 3 stops are required.",
+    "shareCopyFailed": "Could not copy the link."
+  },
+  "map": {
+    "ariaTopographic": "Topographic map",
+    "ariaCyber": "Navigation map",
+    "ariaDefault": "Map"
+  },
+  "fab": {
+    "themeLabel": "Theme",
+    "openMenu": "Open settings menu",
+    "closeMenu": "Close settings menu"
+  },
+  "themes": {
+    "chooseTheme": "Choose a theme",
+    "fieldCompanion": {
+      "name": "Field Companion",
+      "description": "Mobile-first: full-screen map, bottom-sheet panel, large tap targets."
+    },
+    "topographic": {
+      "name": "Topographic",
+      "description": "OpenTopoMap tiles with contour lines, paper-style palette."
+    },
+    "cyberNav": {
+      "name": "Cyber Nav",
+      "description": "Dark CARTO tiles, corner HUD, scanline overlay."
+    }
+  },
+  "sheet": {
+    "ariaLabel": "Bottom sheet: {state}",
+    "ariaPanel": "Stops panel",
+    "ariaSteps": "Stops",
+    "ariaConsole": "Stops console"
+  }
+}

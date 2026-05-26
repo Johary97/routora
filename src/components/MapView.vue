@@ -4,8 +4,11 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, watch, nextTick, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import L from 'leaflet'
 import { useTheme } from '@theme/useTheme.js'
+
+const { t } = useI18n()
 
 const props = defineProps({
   waypoints: { type: Array, required: true },
@@ -51,7 +54,7 @@ function rebuildMarkers() {
       icon: makeDivIcon(index === 0 ? '★' : String(index), index === 0),
       draggable: true,
       keyboard: false,
-      title: w.label || `Étape ${index}`
+      title: w.label || (index === 0 ? t('waypoints.origin') : t('waypoints.stop', { index }))
     })
 
     marker.on('dragend', (event) => {

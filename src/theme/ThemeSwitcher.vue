@@ -3,7 +3,7 @@
     <button
       type="button"
       class="ts-trigger"
-      :title="'Choisir le thème'"
+      :title="t('themes.chooseTheme')"
       :aria-haspopup="'listbox'"
       :aria-expanded="open ? 'true' : 'false'"
       @click="toggleOpen"
@@ -12,7 +12,7 @@
         <circle cx="12" cy="12" r="10" />
         <path d="M12 2a14.5 14.5 0 0 0 0 20M12 2a14.5 14.5 0 0 1 0 20M2 12h20" />
       </svg>
-      <span class="ts-label">{{ active.name }}</span>
+      <span class="ts-label">{{ activeName }}</span>
     </button>
 
     <Teleport to="body">
@@ -21,7 +21,7 @@
         ref="dropdownRef"
         class="ts-menu"
         role="listbox"
-        aria-label="Choisir le thème"
+        :aria-label="t('themes.chooseTheme')"
         :style="dropdownStyle"
       >
         <button
@@ -36,12 +36,12 @@
           <span class="ts-swatch" :style="{ background: m.swatch }" aria-hidden="true" />
           <span class="ts-option-body">
             <span class="ts-option-name">
-              {{ m.name }}
+              {{ themeName(m) }}
               <svg v-if="m.slug === slug" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             </span>
-            <span class="ts-option-desc">{{ m.description }}</span>
+            <span class="ts-option-desc">{{ themeDescription(m) }}</span>
           </span>
         </button>
       </div>
@@ -51,9 +51,30 @@
 
 <script setup>
 import { ref, computed, onBeforeUnmount, watch, nextTick } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useTheme } from './useTheme.js'
 
+const { t, te } = useI18n()
 const { slug, switchTheme, availableThemes } = useTheme()
+
+// Mapping slug → clé i18n. Si la traduction n'existe pas, on retombe sur le manifest.
+const SLUG_TO_KEY = {
+  'field-companion': 'fieldCompanion',
+  'topographic': 'topographic',
+  'cyber-nav': 'cyberNav',
+}
+
+function themeName(m) {
+  const key = SLUG_TO_KEY[m.slug]
+  const path = key ? `themes.${key}.name` : null
+  return path && te(path) ? t(path) : m.name
+}
+
+function themeDescription(m) {
+  const key = SLUG_TO_KEY[m.slug]
+  const path = key ? `themes.${key}.description` : null
+  return path && te(path) ? t(path) : m.description
+}
 const open = ref(false)
 const rootRef = ref(null)
 const dropdownRef = ref(null)
@@ -62,6 +83,7 @@ const coords = ref(null)
 const active = computed(
   () => availableThemes.value.find((m) => m.slug === slug.value) || availableThemes.value[0]
 )
+const activeName = computed(() => themeName(active.value))
 
 const dropdownStyle = computed(() => {
   if (!coords.value) return { visibility: 'hidden' }

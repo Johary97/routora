@@ -1,0 +1,101 @@
+{
+  "common": {
+    "loading": "Chargement…",
+    "back": "Retour",
+    "reset": "Réinitialiser",
+    "close": "Fermer",
+    "cancel": "Annuler",
+    "clear": "Effacer",
+    "remove": "Retirer"
+  },
+  "header": {
+    "title": "Routora",
+    "subtitle": "Planification d'itinéraires",
+    "settings": "Paramètres",
+    "themeToggle": "Basculer clair / sombre",
+    "modeLight": "Mode clair",
+    "modeDark": "Mode sombre",
+    "activateModeLight": "Activer le mode clair",
+    "activateModeDark": "Activer le mode sombre",
+    "languageToggle": "Changer de langue",
+    "languageFrench": "Français",
+    "languageEnglish": "English"
+  },
+  "home": {
+    "title": "Itinéraire multi-étapes",
+    "lede": "Séquence d'étapes, ordre de visite optimisé, tracé routier.",
+    "hint": "Clic sur la carte pour ajouter une étape.",
+    "brandAria": "Routora — retour à l'accueil"
+  },
+  "panel": {
+    "addStop": "Ajouter une étape",
+    "route": "Itinéraire",
+    "location": "Localisation",
+    "closeLoop": "Retour au départ",
+    "consoleTitle": "// ROUTE.OPS"
+  },
+  "addressSearch": {
+    "placeholder": "Rechercher une adresse, une ville…",
+    "loading": "Recherche…",
+    "noResults": "Aucune adresse trouvée",
+    "errorGeneric": "Erreur de recherche"
+  },
+  "waypoints": {
+    "empty": "Aucune étape.",
+    "addHint": "Recherche d'adresse ou clic sur la carte pour ajouter une étape.",
+    "origin": "Point de départ",
+    "stop": "Étape {index}",
+    "dragHint": "Glisser pour réordonner",
+    "removeOrigin": "Retirer le point de départ",
+    "removeStop": "Retirer cette étape"
+  },
+  "actions": {
+    "optimize": "Optimiser l'ordre",
+    "optimizing": "Optimisation…",
+    "share": "Partager",
+    "shareTitle": "Copier le lien de la tournée",
+    "shareCopied": "Lien copié"
+  },
+  "stats": {
+    "stops": "étapes",
+    "distance": "distance",
+    "duration": "durée estimée",
+    "improvement": "gain optimisation",
+    "straightLine": "Tracé à vol d'oiseau — OSRM indisponible."
+  },
+  "errors": {
+    "minThreeStops": "Au moins 3 étapes sont nécessaires.",
+    "shareCopyFailed": "Copie du lien impossible."
+  },
+  "map": {
+    "ariaTopographic": "Carte topographique",
+    "ariaCyber": "Carte navigation",
+    "ariaDefault": "Carte"
+  },
+  "fab": {
+    "themeLabel": "Thème",
+    "openMenu": "Ouvrir le menu paramètres",
+    "closeMenu": "Fermer le menu paramètres"
+  },
+  "themes": {
+    "chooseTheme": "Choisir le thème",
+    "fieldCompanion": {
+      "name": "Field Companion",
+      "description": "Mobile-first : carte plein écran, panneau en bottom-sheet, cibles tactiles larges."
+    },
+    "topographic": {
+      "name": "Topographic",
+      "description": "Tuiles OpenTopoMap avec lignes de niveau, palette papier."
+    },
+    "cyberNav": {
+      "name": "Cyber Nav",
+      "description": "Tuiles sombres CARTO, HUD aux quatre coins, scanline."
+    }
+  },
+  "sheet": {
+    "ariaLabel": "Bottom sheet : {state}",
+    "ariaPanel": "Panneau étapes",
+    "ariaSteps": "Étapes",
+    "ariaConsole": "Console étapes"
+  }
+}

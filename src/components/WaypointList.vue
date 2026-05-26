@@ -1,8 +1,8 @@
 <template>
   <div class="waypoint-list">
     <div v-if="waypoints.length === 0" class="empty-state">
-      <p>Aucune étape.</p>
-      <p class="hint">Ajoutez une étape via la recherche d'adresse ou un clic sur la carte.</p>
+      <p>{{ t('waypoints.empty') }}</p>
+      <p class="hint">{{ t('waypoints.addHint') }}</p>
     </div>
 
     <draggable
@@ -16,14 +16,14 @@
     >
       <template #item="{ element, index }">
         <div :class="['waypoint-card', { 'is-origin': index === 0 }]">
-          <div class="drag-handle" :title="index === 0 ? 'Point de départ' : 'Glisser pour réordonner'">
+          <div class="drag-handle" :title="index === 0 ? t('waypoints.origin') : t('waypoints.dragHint')">
             <span v-if="index === 0" class="origin-mark">★</span>
             <span v-else class="order-number">{{ index }}</span>
           </div>
 
           <div class="waypoint-body">
             <div class="waypoint-label">
-              {{ element.label || (index === 0 ? 'Point de départ' : `Étape ${index}`) }}
+              {{ element.label || (index === 0 ? t('waypoints.origin') : t('waypoints.stop', { index })) }}
             </div>
             <div class="waypoint-coords">
               {{ element.lat.toFixed(5) }}, {{ element.lng.toFixed(5) }}
@@ -33,9 +33,9 @@
           <button
             type="button"
             class="remove-btn"
-            :title="index === 0 ? 'Retirer le point de départ' : 'Retirer cette étape'"
+            :title="index === 0 ? t('waypoints.removeOrigin') : t('waypoints.removeStop')"
             @click="$emit('remove', element.id)"
-            aria-label="Retirer"
+            :aria-label="t('common.remove')"
           >
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
@@ -49,6 +49,9 @@
 
 <script setup>
 import draggable from 'vuedraggable'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 defineProps({
   waypoints: { type: Array, required: true }

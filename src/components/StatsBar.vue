@@ -2,26 +2,29 @@
   <div class="stats-bar">
     <div class="stat">
       <span class="stat-value">{{ stopsLabel }}</span>
-      <span class="stat-label">étapes</span>
+      <span class="stat-label">{{ t('stats.stops') }}</span>
     </div>
     <div class="stat">
       <span class="stat-value">{{ distanceLabel }}</span>
-      <span class="stat-label">distance</span>
+      <span class="stat-label">{{ t('stats.distance') }}</span>
     </div>
     <div class="stat">
       <span class="stat-value">{{ durationLabel }}</span>
-      <span class="stat-label">durée estimée</span>
+      <span class="stat-label">{{ t('stats.duration') }}</span>
     </div>
     <div v-if="improvementPct > 0" class="stat improvement">
       <span class="stat-value">−{{ improvementPct.toFixed(0) }}%</span>
-      <span class="stat-label">gain optimisation</span>
+      <span class="stat-label">{{ t('stats.improvement') }}</span>
     </div>
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { formatDuration } from '../services/route-optimizer.js'
+
+const { t } = useI18n()
 
 const props = defineProps({
   stops: { type: Number, default: 0 },
