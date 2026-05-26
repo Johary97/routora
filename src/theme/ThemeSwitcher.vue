@@ -15,47 +15,63 @@
       <span class="ts-label">{{ active.name }}</span>
     </button>
 
-    <div
-      v-if="open"
-      class="ts-menu"
-      role="listbox"
-      aria-label="Choisir le thème"
-    >
-      <button
-        v-for="m in availableThemes"
-        :key="m.slug"
-        type="button"
-        role="option"
-        :aria-selected="m.slug === slug ? 'true' : 'false'"
-        :class="['ts-option', { 'is-active': m.slug === slug }]"
-        @click="onPick(m.slug)"
+    <Teleport to="body">
+      <div
+        v-if="open"
+        ref="dropdownRef"
+        class="ts-menu"
+        role="listbox"
+        aria-label="Choisir le thème"
+        :style="dropdownStyle"
       >
-        <span class="ts-swatch" :style="{ background: m.swatch }" aria-hidden="true" />
-        <span class="ts-option-body">
-          <span class="ts-option-name">
-            {{ m.name }}
-            <svg v-if="m.slug === slug" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
+        <button
+          v-for="m in availableThemes"
+          :key="m.slug"
+          type="button"
+          role="option"
+          :aria-selected="m.slug === slug ? 'true' : 'false'"
+          :class="['ts-option', { 'is-active': m.slug === slug }]"
+          @click="onPick(m.slug)"
+        >
+          <span class="ts-swatch" :style="{ background: m.swatch }" aria-hidden="true" />
+          <span class="ts-option-body">
+            <span class="ts-option-name">
+              {{ m.name }}
+              <svg v-if="m.slug === slug" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </span>
+            <span class="ts-option-desc">{{ m.description }}</span>
           </span>
-          <span class="ts-option-desc">{{ m.description }}</span>
-        </span>
-      </button>
-    </div>
+        </button>
+      </div>
+    </Teleport>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onBeforeUnmount, watch, nextTick } from 'vue'
 import { useTheme } from './useTheme.js'
 
 const { slug, switchTheme, availableThemes } = useTheme()
 const open = ref(false)
 const rootRef = ref(null)
+const dropdownRef = ref(null)
+const coords = ref(null)
 
 const active = computed(
   () => availableThemes.value.find((m) => m.slug === slug.value) || availableThemes.value[0]
 )
+
+const dropdownStyle = computed(() => {
+  if (!coords.value) return { visibility: 'hidden' }
+  return {
+    position: 'fixed',
+    top: `${coords.value.top}px`,
+    right: `${coords.value.right}px`,
+    zIndex: 9999,
+  }
+})
 
 function toggleOpen() {
   open.value = !open.value
@@ -66,23 +82,43 @@ function onPick(nextSlug) {
   open.value = false
 }
 
+function computeCoords() {
+  if (!rootRef.value) return
+  const r = rootRef.value.getBoundingClientRect()
+  coords.value = { top: r.bottom + 8, right: window.innerWidth - r.right }
+}
+
 function onClickOutside(event) {
   if (!open.value) return
-  if (rootRef.value && !rootRef.value.contains(event.target)) {
-    open.value = false
-  }
+  const inRoot = rootRef.value && rootRef.value.contains(event.target)
+  const inDropdown = dropdownRef.value && dropdownRef.value.contains(event.target)
+  if (!inRoot && !inDropdown) open.value = false
 }
 
 function onKey(event) {
   if (event.key === 'Escape') open.value = false
 }
 
-onMounted(() => {
-  document.addEventListener('mousedown', onClickOutside)
-  document.addEventListener('keydown', onKey)
+watch(open, async (v) => {
+  if (v) {
+    await nextTick()
+    computeCoords()
+    window.addEventListener('scroll', computeCoords, true)
+    window.addEventListener('resize', computeCoords)
+    document.addEventListener('mousedown', onClickOutside)
+    document.addEventListener('keydown', onKey)
+  } else {
+    coords.value = null
+    window.removeEventListener('scroll', computeCoords, true)
+    window.removeEventListener('resize', computeCoords)
+    document.removeEventListener('mousedown', onClickOutside)
+    document.removeEventListener('keydown', onKey)
+  }
 })
 
 onBeforeUnmount(() => {
+  window.removeEventListener('scroll', computeCoords, true)
+  window.removeEventListener('resize', computeCoords)
   document.removeEventListener('mousedown', onClickOutside)
   document.removeEventListener('keydown', onKey)
 })
@@ -122,11 +158,7 @@ onBeforeUnmount(() => {
 }
 
 .ts-menu {
-  position: absolute;
-  right: 0;
-  top: calc(100% + 0.4rem);
   width: 18rem;
-  z-index: 50;
   border-radius: var(--radius-lg, 12px);
   border: 1px solid var(--border-color, #2a2a2a);
   background: var(--surface-solid, var(--body-background, #fff));
@@ -145,7 +177,7 @@ onBeforeUnmount(() => {
   text-align: left;
   cursor: pointer;
   font-family: inherit;
-  color: inherit;
+  color: var(--color-text, currentColor);
   transition: background 0.12s ease;
 }
 
