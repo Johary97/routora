@@ -107,19 +107,6 @@ const hud = ref({
   gap: 0.4rem;
 }
 
-/* Évite le chevauchement avec le HUD bottom-right. */
-.cn-shell :deep(.app-fab) {
-  bottom: 5.5rem;
-  right: 1rem;
-}
-
-@media (max-width: 900px) {
-  .cn-shell :deep(.app-fab) {
-    bottom: 1rem;
-    right: 1rem;
-  }
-}
-
 .cn-main {
   position: relative;
   flex: 1;

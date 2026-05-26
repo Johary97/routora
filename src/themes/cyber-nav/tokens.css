@@ -146,3 +146,14 @@
   stroke: var(--primary-color);
   filter: drop-shadow(0 0 6px var(--primary-color));
 }
+
+/* Décale le FAB pour éviter le chevauchement avec le HUD bottom-right (cn-hud-br). */
+:root[data-theme-slug="cyber-nav"] .app-fab {
+  bottom: 5.5rem !important;
+  right: 1rem !important;
+}
+@media (max-width: 900px) {
+  :root[data-theme-slug="cyber-nav"] .app-fab {
+    bottom: 1rem !important;
+  }
+}
